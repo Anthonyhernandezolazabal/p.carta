@@ -11,7 +11,7 @@
           />
           <span class="brand-text font-weight-light">Post Venta 3</span>
         </a>
-  
+
         <!-- Sidebar -->
         <div class="sidebar">
           <div class="user-panel mt-3 pb-3 mb-3 d-flex">
@@ -26,8 +26,8 @@
               <a href="#" class="d-block">Alexander Pierce</a>
             </div>
           </div>
-  
-  
+
+
           <!-- Sidebar Menu -->
           <nav class="mt-2">
             <ul
@@ -56,9 +56,9 @@
                 </router-link>
               </li>
               <li class="nav-item">
-                  <router-link :to="'/categorias'"  class="nav-link">
+                  <router-link :to="'/sliders'"  class="nav-link">
                       <i class="nav-icon far fas fa-th"></i>
-                      <p>Categorías</p>
+                      <p>Sliders</p>
                   </router-link>
               </li>
               <li class="nav-item">
@@ -107,7 +107,7 @@
       </aside>
     </div>
   </template>
-  
+
   <script>
   export default {
     mounted() {
@@ -115,4 +115,3 @@
     },
   };
   </script>
-  

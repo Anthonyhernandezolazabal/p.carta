@@ -5,7 +5,7 @@ Vue.use(VueRouter)
 
 export const rutas = [
     {
-        path: "/dashboard",
+        path: "/home",
         name: "dashboard.index",
         component: require("./components/modulos/Dashboard/index.vue").default,
     },
@@ -13,6 +13,11 @@ export const rutas = [
         path: "/usuarios",
         name: "usuarios.index",
         component: require("./components/modulos/Usuarios/index.vue").default,
+    },
+    {
+        path: "/sliders",
+        name: "sliders.index",
+        component: require("./components/modulos/Sliders/index.vue").default,
     },
 
 ]

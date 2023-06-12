@@ -14,5 +14,5 @@
 
 
   <link rel="stylesheet" href="{{asset('css/plantilla.css')}}">
-  
+
 </head>
