@@ -27,6 +27,19 @@
     <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,600,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Dancing+Script:400,700" rel="stylesheet">
+    <style>
+        .intro {
+            display: table;
+            width: 100%;
+            padding: 0;
+            background: url({{ $header[0]->filename }}) no-repeat center center;
+            background-color: #e5e5e5;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            background-size: cover;
+            -o-background-size: cover;
+        }
+    </style>
 </head>
 
 <body  id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
@@ -55,8 +68,8 @@
         <div class="container">
           <div class="row">
             <div class="intro-text">
-              <h1>Touché</h1>
-              <p>Restaurant / Coffee / Pub</p>
+              <h1>{{ $header[0]->titulo }}</h1>
+              <p>{{ $header[0]->descripcion }}</p>
               <a href="#about" class="btn btn-custom btn-lg page-scroll">Discover Story</a>
             </div>
           </div>
@@ -499,10 +512,6 @@
       </div>
     </div>
   </div>
-
-
-
-
   <script type="text/javascript" src="vendor/js/jquery.1.11.1.js"></script>
   <script type="text/javascript" src="vendor/js/bootstrap.js"></script>
   <script type="text/javascript" src="vendor/js/SmoothScroll.js"></script>

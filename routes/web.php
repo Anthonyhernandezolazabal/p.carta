@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\SliderController;
 use Illuminate\Support\Facades\Route;
-
+use App\Models\Slider;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,8 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('web');
+// Route::get('/', function () {
+//     return view('web');
+// });
+
+
+Route::get('/', function(){
+    $header = Slider::where('estado','=',1)->get();
+    return view('web',compact('header'));
 });
 
 // Route::get('/{any}', function () {
@@ -30,8 +36,10 @@ Route::get('/slider/getListarSlider', [SliderController::class, 'getListarSlider
 Route::delete('/slider/delSlider/{id}', [SliderController::class, 'delSlider']);
 Route::post('/slider/delImgSlider/{id}', [SliderController::class, 'delImgSlider']);
 Route::get('/slider/showEditSlider/{id}', [SliderController::class, 'showEditSlider']);
-
 Route::post('/slider/editSlider', [SliderController::class, 'editSlider']);
 Route::post('/slider/cambiarEstadoView', [SliderController::class, 'cambiarEstadoView']);
+
+
+
 
 Route::get('/{any}', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
