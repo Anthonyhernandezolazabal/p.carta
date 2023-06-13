@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\NavegationController;
 use App\Http\Controllers\SliderController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Slider;
@@ -31,6 +32,16 @@ Route::get('/', function(){
 
 Auth::routes();
 
+
+//CONFIGURACIONES
+Route::get('/navegation/getListaMenus', [NavegationController::class, 'getListaMenus']);
+Route::post('/navegation/addMenus', [NavegationController::class, 'addMenus']);
+
+Route::get('/navegation/getMostrarLogo', [NavegationController::class, 'getMostrarLogo']);
+Route::post('/navegation/addLogo', [NavegationController::class, 'addLogo']);
+
+
+//SLIDERS
 Route::post('/slider/setRegistrarSlider', [SliderController::class, 'setRegistrarSlider']);
 Route::get('/slider/getListarSlider', [SliderController::class, 'getListarSlider']);
 Route::delete('/slider/delSlider/{id}', [SliderController::class, 'delSlider']);

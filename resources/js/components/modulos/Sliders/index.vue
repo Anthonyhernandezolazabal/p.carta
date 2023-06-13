@@ -7,7 +7,6 @@
                         <h2>Registro de sliders
                             <button type="button" class="btn btn-info btn-flat" @click="abrirModal">Nuevo registro</button>
                         </h2>
-
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -276,8 +275,6 @@
             },
             validarRegistroCampos() {
                 this.error = 0;
-
-
                 if(this.dialogFormVisible){
                     if (!this.allslider.oFotografia) {
                         this.validarcampoImg = true;

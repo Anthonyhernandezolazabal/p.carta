@@ -10,9 +10,9 @@ export const rutas = [
         component: require("./components/modulos/Dashboard/index.vue").default,
     },
     {
-        path: "/usuarios",
-        name: "usuarios.index",
-        component: require("./components/modulos/Usuarios/index.vue").default,
+        path: "/navegation",
+        name: "navegation.index",
+        component: require("./components/modulos/Navegation/index.vue").default,
     },
     {
         path: "/sliders",

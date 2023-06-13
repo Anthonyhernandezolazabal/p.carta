@@ -44,9 +44,9 @@
                 </router-link>
               </li>
               <li class="nav-item">
-                <router-link :to="'/dashboard'" class="nav-link">
-                    <i class="nav-icon far fas fa-home"></i>
-                    <p>Inicio</p>
+                <router-link :to="'/navegation'" class="nav-link">
+                    <i class="nav-icon far fas fa-reorder"></i>
+                    <p>Navegación</p>
                 </router-link>
               </li>
               <li class="nav-item">

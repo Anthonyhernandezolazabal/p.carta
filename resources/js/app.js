@@ -12,6 +12,10 @@ Vue.component('navbar-component', require('./components/layouts/Navbar.vue').def
 Vue.component('sidebar-component', require('./components/layouts/Sidebar.vue').default);
 
 
+Vue.component('NavegationMenu-component', require('./components/modulos/Navegation/menu.vue').default);
+Vue.component('NavegationLogo-component', require('./components/modulos/Navegation/logo.vue').default);
+
+
 
 import router from './routes';
 const app = new Vue({
