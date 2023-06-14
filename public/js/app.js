@@ -7178,7 +7178,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.get(url).then(function (rpta) {
         _this.loadingLogo = false;
         if (rpta["data"].length != 0) {
-          var logo = JSON.parse(rpta["data"][0].nombre)["nombres"];
+          var logo = JSON.parse(rpta["data"][0]["nombre"])[0]["nombres"];
           _this.pathOld = logo.path;
           _this.idLogo = rpta["data"][0].id;
           _this.srcLogo = logo["path"];
@@ -7319,7 +7319,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.get(url).then(function (rpta) {
         _this.loadingMenu = false;
         if (rpta["data"].length != 0) {
-          var rp = JSON.parse(rpta["data"][0].nombre)[0]["nombres"];
+          var rp = JSON.parse(rpta["data"][0]["nombre"])[0]["nombres"];
           _this.idMenu = rpta["data"][0].id;
           _this.fillAddMenu.menu01 = rp["menu01"];
           _this.fillAddMenu.menu02 = rp["menu02"];
@@ -7345,7 +7345,7 @@ __webpack_require__.r(__webpack_exports__);
       var url = "/navegation/addMenus";
       axios.post(url, {
         "id": this.idMenu,
-        "nombre": JSON.stringify(jsonAdd),
+        "nombre": jsonAdd,
         "tipo": 'menu',
         "estado": 1
       }).then(function (response) {

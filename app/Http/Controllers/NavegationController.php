@@ -59,7 +59,9 @@ class NavegationController extends Controller
         $tipo = 'logo';
         $estado = 1; //activo
 
-        $datajson = array(
+        $datajson = [];
+
+        $jsonarray = array(
             "tipo" => $tipo,
             "nombres" => array
                     (
@@ -67,6 +69,8 @@ class NavegationController extends Controller
                         "filename" => $nombre,
                     )
         );
+
+        array_push($datajson,$jsonarray);
 
         $dataCount = Navegation::where('tipo','=','logo')->get()->count();
         if($dataCount == 0){

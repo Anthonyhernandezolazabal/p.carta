@@ -43,10 +43,9 @@
                 axios
                     .get(url)
                     .then((rpta) => {
-
                         this.loadingLogo = false;
                         if (rpta["data"].length != 0) {
-                            let logo = JSON.parse(rpta["data"][0].nombre)["nombres"];
+                            let logo = JSON.parse(rpta["data"][0]["nombre"])[0]["nombres"];
                             this.pathOld = logo.path
                             this.idLogo = rpta["data"][0].id;
                             this.srcLogo = logo["path"];

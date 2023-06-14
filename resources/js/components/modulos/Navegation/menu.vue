@@ -68,7 +68,7 @@
                     .then((rpta) => {
                         this.loadingMenu = false;
                         if (rpta["data"].length != 0) {
-                            let rp = JSON.parse(rpta["data"][0].nombre)[0]["nombres"];
+                            let rp = JSON.parse(rpta["data"][0]["nombre"])[0]["nombres"];
                             this.idMenu = rpta["data"][0].id;
                             this.fillAddMenu.menu01 = rp["menu01"];
                             this.fillAddMenu.menu02 = rp["menu02"];
@@ -89,15 +89,17 @@
                     return;
                 }
 
-                let jsonAdd = [{
-                    'tipo': 'menu',
-                    'nombres': this.fillAddMenu
-                }];
+                let jsonAdd = [
+                    {
+                        'tipo': 'menu',
+                        'nombres': this.fillAddMenu
+                    }
+                ];
 
                 var url = "/navegation/addMenus"
                 axios.post(url, {
                     "id": this.idMenu,
-                    "nombre": JSON.stringify(jsonAdd),
+                    "nombre": jsonAdd,
                     "tipo": 'menu',
                     "estado": 1
                 }).then(response => {

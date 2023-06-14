@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\NavegationController;
 use App\Http\Controllers\SliderController;
+use App\Models\Navegation;
 use Illuminate\Support\Facades\Route;
 use App\Models\Slider;
 /*
@@ -22,7 +23,26 @@ use App\Models\Slider;
 
 Route::get('/', function(){
     $header = Slider::where('estado','=',1)->get();
-    return view('web',compact('header'));
+
+    //MENÚ
+    $navegacionMenu = Navegation::where('tipo','=','menu', 'and', 'estado', '=', 1)->first();
+    if(!empty($navegacionMenu)){
+        $arrMenu=json_decode($navegacionMenu["nombre"],TRUE);
+        $arrMenuNombres = $arrMenu[0]["nombres"];
+    }else{
+        $arrMenuNombres = 0;
+    }
+
+    //LOGO
+    $navegacionLogo = Navegation::where('tipo','=','logo', 'and', 'estado', '=', 1)->first();
+    if(!empty($navegacionLogo)){
+        $arrLogo=json_decode($navegacionLogo["nombre"],TRUE);
+        $arrLogoNombres = $arrLogo[0]["nombres"];
+    }else{
+        $arrLogoNombres = 0;
+    }
+
+    return view('web',compact('header','arrMenuNombres','arrLogoNombres'));
 });
 
 // Route::get('/{any}', function () {
