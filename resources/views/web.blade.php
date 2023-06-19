@@ -61,8 +61,6 @@
             Logo
             @else
             <img src="{{ $arrLogoNombres !=0 ? $arrLogoNombres["path"] : 'vendor/img/user-1-118x118.jpg'}}" width="100">
-
-
             @endif
         </a>
     </div>
@@ -84,8 +82,8 @@
         <div class="container">
           <div class="row">
             <div class="intro-text">
-                <h1>{{ !empty($header) ? $header[0]->titulo : 'Título' }}</h1>
-                <p>{{ !empty($header) ? $header[0]->descripcion : 'Descripción' }}</p>
+                <h1>{{ ($header->count() != 0) ? $header[0]->titulo : 'Título' }}</h1>
+                <p>{{ ($header->count() != 0) ? $header[0]->descripcion : 'Descripción' }}</p>
               <a href="#about" class="btn btn-custom btn-lg page-scroll">Discover Story</a>
             </div>
           </div>

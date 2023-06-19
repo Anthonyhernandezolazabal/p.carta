@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MenuController;
 use App\Http\Controllers\NavegationController;
 use App\Http\Controllers\SliderController;
 use App\Models\Navegation;
@@ -53,6 +54,9 @@ Route::get('/', function(){
 Auth::routes();
 
 
+//MOSTRAR DATOS EN SIDEBAR
+Route::get('/navegation/sbMenu', [NavegationController::class, 'sbMenu']);
+
 //CONFIGURACIONES
 Route::get('/navegation/getListaMenus', [NavegationController::class, 'getListaMenus']);
 Route::post('/navegation/addMenus', [NavegationController::class, 'addMenus']);
@@ -70,6 +74,9 @@ Route::get('/slider/showEditSlider/{id}', [SliderController::class, 'showEditSli
 Route::post('/slider/editSlider', [SliderController::class, 'editSlider']);
 Route::post('/slider/cambiarEstadoView', [SliderController::class, 'cambiarEstadoView']);
 
+//MENU01
+Route::post('/menus/setRegistrarMenu01', [MenuController::class, 'setRegistrarMenu01']);
+Route::get('/menus/getListarMenu01/{tipo}', [MenuController::class, 'getListarMenu01']);
 
 
 

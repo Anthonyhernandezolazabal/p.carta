@@ -20,6 +20,34 @@ export const rutas = [
         component: require("./components/modulos/Sliders/index.vue").default,
     },
 
+    //MENÚS
+    {
+        path: "/menu01",
+        name: "menus.menu01",
+        component: require("./components/modulos/Menus/menu01.vue").default,
+    },
+    {
+        path: "/menu02",
+        name: "menus.menu02",
+        component: require("./components/modulos/Menus/menu02.vue").default,
+    },
+    {
+        path: "/menu03",
+        name: "menus.menu03",
+        component: require("./components/modulos/Menus/menu03.vue").default,
+    },
+    {
+        path: "/menu04",
+        name: "menus.menu04",
+        component: require("./components/modulos/Menus/menu04.vue").default,
+    },
+    {
+        path: "/menu05",
+        name: "menus.menu05",
+        component: require("./components/modulos/Menus/menu05.vue").default,
+    },
+
+
 ]
 
 export default new VueRouter({

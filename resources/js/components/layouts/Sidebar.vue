@@ -1,6 +1,9 @@
 <template>
     <div>
-      <aside class="main-sidebar sidebar-dark-primary elevation-4">
+      <aside class="main-sidebar sidebar-dark-primary elevation-4"
+        v-loading="loadingNav"
+        element-loading-background="rgba(0, 0, 0, 0.4)"
+      >
         <!-- Brand Logo -->
         <a href="../../index3.html" class="brand-link">
           <img
@@ -50,48 +53,43 @@
                 </router-link>
               </li>
               <li class="nav-item">
-                <router-link :to="'/usuarios'" class="nav-link">
-                  <i class="nav-icon far fa fa-user"></i>
-                  <p>Usuarios</p>
-                </router-link>
-              </li>
-              <li class="nav-item">
                   <router-link :to="'/sliders'"  class="nav-link">
-                      <i class="nav-icon far fas fa-th"></i>
+                      <i class="nav-icon far fas fa-tag"></i>
                       <p>Sliders</p>
                   </router-link>
               </li>
+              <li class="nav-header">MENÚS</li>
               <li class="nav-item">
-                  <router-link :to="'/marcas'"  class="nav-link">
-                      <i class="nav-icon far fas fa-tag"></i>
-                      <p>Marcas</p>
-                  </router-link>
+                <router-link :to="'/menu01'" class="nav-link">
+                  <i class="el-icon-paperclip"></i>
+                  <p v-text="listMenu.menu01"></p>
+                </router-link>
               </li>
               <li class="nav-item">
-                <a href="../widgets.html" class="nav-link">
-                  <i class="nav-icon fab fa-product-hunt"></i>
-                  <p>Productos</p>
-                </a>
+                <router-link :to="'/menu02'" class="nav-link">
+                  <i class="el-icon-paperclip"></i>
+                  <p v-text="listMenu.menu02"></p>
+                </router-link>
               </li>
               <li class="nav-item">
-                  <router-link :to="'/clientes'" class="nav-link">
-                      <i class="nav-icon far fas fa-users"></i>
-                      <p>Clientes</p>
-                  </router-link>
-              </li>
-              <li class="nav-header">VENTAS</li>
-              <li class="nav-item">
-                <a href="ventas" class="nav-link">
-                  <i class="nav-icon fas fa-shopping-cart"></i>
-                  <p>Administrar Ventas</p>
-                </a>
+                <router-link :to="'/menu03'" class="nav-link">
+                  <i class="el-icon-paperclip"></i>
+                  <p v-text="listMenu.menu03"></p>
+                </router-link>
               </li>
               <li class="nav-item">
-                <a href="crear-venta" class="nav-link">
-                  <i class="nav-icon fas fa-shopping-basket"></i>
-                  <p>Crear Ventas</p>
-                </a>
+                <router-link :to="'/menu04'" class="nav-link">
+                  <i class="el-icon-paperclip"></i>
+                  <p v-text="listMenu.menu04"></p>
+                </router-link>
               </li>
+              <li class="nav-item">
+                <router-link :to="'/menu05'" class="nav-link">
+                  <i class="el-icon-paperclip"></i>
+                  <p v-text="listMenu.menu05"></p>
+                </router-link>
+              </li>
+
               <li class="nav-header">REPORTES</li>
               <li class="nav-item">
                 <a href="reportes" class="nav-link">
@@ -111,7 +109,41 @@
   <script>
   export default {
     mounted() {
-      console.log("Component Sidebar.");
+      this.getListaMenusSidebar();
     },
+    data(){
+        return {
+            listMenu: {
+                menu01: 'Menú 01',
+                menu02: 'Menú 02',
+                menu03: 'Menú 03',
+                menu04: 'Menú 04',
+                menu05: 'Menú 05',
+            },
+            loadingNav: false
+        }
+    },
+    methods: {
+
+        getListaMenusSidebar() {
+                let url = 'navegation/sbMenu';
+                axios
+                    .get(url)
+                    .then((rpta) => {
+                        if (rpta["data"] != 0) {
+                            let menu=rpta["data"];
+                            this.listMenu.menu01 = menu["menu01"];
+                            this.listMenu.menu02 = menu["menu02"];
+                            this.listMenu.menu03 = menu["menu03"];
+                            this.listMenu.menu04 = menu["menu04"];
+                            this.listMenu.menu05 = menu["menu05"];
+                        }
+
+                    })
+                    .catch(function (error) {
+                        // toastr.error(error);
+                    });
+            },
+    }
   };
   </script>

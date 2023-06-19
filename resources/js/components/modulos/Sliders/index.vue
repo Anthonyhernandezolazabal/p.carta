@@ -60,12 +60,12 @@
                 </div>
                 <div class="col-xl-7 col-lg-6 col-md-12 col-sm-12">
                     <label class="col-form-label" for="inputWarning">Título</label>
-                    <el-input placeholder="Título de slider" v-model="allslider.cTitulo" clearable>
+                    <el-input placeholder="Título de slider" v-model="allslider.cTitulo" clearable maxlength="50" show-word-limit>
                     </el-input>
                     <p v-if="validarcampoTitulo"><code v-text="vcTitulo"></code></p>
                     <hr>
                     <label class="col-form-label" for="inputWarning">Descripción</label>
-                    <el-input placeholder="Descripción de slider" v-model="allslider.cDescription " clearable>
+                    <el-input placeholder="Descripción de slider" v-model="allslider.cDescription " clearable maxlength="50" show-word-limit>
                     </el-input>
                     <p v-if="validarcampoDescripcion"><code v-text="vcDescripcion"></code></p>
                     <hr>
@@ -96,12 +96,12 @@
                 </div>
                 <div class="col-xl-7 col-lg-6 col-md-12 col-sm-12">
                     <label class="col-form-label" for="inputWarning">Título</label>
-                    <el-input placeholder="Título de slider" v-model="allslider.cTitulo" clearable>
+                    <el-input placeholder="Título de slider" v-model="allslider.cTitulo"  clearable maxlength="50" show-word-limit>
                     </el-input>
                     <p v-if="validarcampoTitulo"><code v-text="vcTitulo"></code></p>
                     <hr>
                     <label class="col-form-label" for="inputWarning">Descripción</label>
-                    <el-input placeholder="Descripción de slider" v-model="allslider.cDescription " clearable>
+                    <el-input placeholder="Descripción de slider" v-model="allslider.cDescription "  clearable maxlength="50" show-word-limit>
                     </el-input>
                     <p v-if="validarcampoDescripcion"><code v-text="vcDescripcion"></code></p>
                     <hr>
@@ -148,6 +148,7 @@
                 vcDescripcion: '',
                 error: 0,
                 form: new FormData,
+                formEdit: new FormData,
                 srcAdd: '/img/parallax-1-1920x850.jpg',
                 srcEdit: '',
                 idEdit: '',
@@ -238,19 +239,19 @@
                     this.loadingedit = false;
                     return;
                 }
-                this.form.append('cTitulo', this.allslider.cTitulo)
-                this.form.append('cDescription', this.allslider.cDescription)
-                this.form.append('oFotografia', this.allslider.oFotografia)
-                this.form.append('oNameImg', this.allslider.oNameImg)
-                this.form.append('imgOld', this.imgRutaOld)
-                this.form.append('id', this.idEdit)
+                this.formEdit.append('cTitulo', this.allslider.cTitulo)
+                this.formEdit.append('cDescription', this.allslider.cDescription)
+                this.formEdit.append('oFotografia', this.allslider.oFotografia)
+                this.formEdit.append('oNameImg', this.allslider.oNameImg)
+                this.formEdit.append('imgOld', this.imgRutaOld)
+                this.formEdit.append('id', this.idEdit)
                 const config = {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
                 }
                 var url = '/slider/editSlider'
-                axios.post(url, this.form, config).then(response => {
+                axios.post(url, this.formEdit, config).then(response => {
                     this.loadingedit = false;
                     this.getListaSlider();
                     this.$notify({

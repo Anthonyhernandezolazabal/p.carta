@@ -57,7 +57,7 @@ class SliderController extends Controller
         {
             $imagenesNew = $request->file('oFotografia')->store('public/Slider');
             $url = Storage::url($imagenesNew);
-            Slider::where('id', $id)->update(
+            $rpta = Slider::where('id', $id)->update(
                 [
                     'titulo' => $cTitulo,
                     'descripcion' => $cDescription,
@@ -69,7 +69,7 @@ class SliderController extends Controller
             $imgDeleted = str_replace('storage','public',$imgOld);
             Storage::delete($imgDeleted);
         }else{
-            Slider::where('id', $id)->update(
+            $rpta = Slider::where('id', $id)->update(
                 [
                     'titulo' => $cTitulo,
                     'descripcion' => $cDescription,
@@ -77,6 +77,7 @@ class SliderController extends Controller
             );
         }
 
+        return $rpta;
     }
     public function cambiarEstadoView(Request $request)
     {

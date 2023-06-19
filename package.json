@@ -25,6 +25,7 @@
     },
     "dependencies": {
         "element-ui": "^2.15.13",
-        "vue-router": "^2.8.1"
+        "vue-router": "^2.8.1",
+        "vue2-editor": "^2.10.3"
     }
 }

@@ -88,4 +88,15 @@ class NavegationController extends Controller
 
         return $rpta;
     }
+    public function sbMenu(){
+        $navegacionMenu = Navegation::where('tipo','=','menu', 'and', 'estado', '=', 1)->first();
+        if(!empty($navegacionMenu)){
+            $arrMenu=json_decode($navegacionMenu["nombre"],TRUE);
+            $arrMenuNombres = $arrMenu[0]["nombres"];
+        }else{
+            $arrMenuNombres = 0;
+        }
+
+        return $arrMenuNombres;
+    }
 }

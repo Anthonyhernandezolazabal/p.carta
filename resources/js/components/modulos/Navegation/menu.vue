@@ -99,7 +99,7 @@
                 var url = "/navegation/addMenus"
                 axios.post(url, {
                     "id": this.idMenu,
-                    "nombre": jsonAdd,
+                    "nombre": JSON.stringify(jsonAdd),
                     "tipo": 'menu',
                     "estado": 1
                 }).then(response => {
