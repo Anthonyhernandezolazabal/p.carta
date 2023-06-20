@@ -89,7 +89,7 @@
             },
             getListaMenu01(){
                 this.loadingListMenu01 = true;
-                let url = 'menus/getListarMenu01';
+                let url = 'menus/getListarMenus';
                 axios
                     .get(url+'/Menu01')
                     .then((rpta) => {

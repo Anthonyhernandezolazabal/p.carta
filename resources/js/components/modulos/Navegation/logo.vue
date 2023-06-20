@@ -2,11 +2,11 @@
     <div>
 
         <div class="row">
-            <div class="col-4"></div>
-            <div class="col-6">
+            <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12"></div>
+            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                 <input type="file" @change="getFile">
             </div>
-            <div class="col-2"></div>
+            <div class="col-xl-2 col-lg-6 col-md-12 col-sm-12"></div>
         </div>
 
         <br>

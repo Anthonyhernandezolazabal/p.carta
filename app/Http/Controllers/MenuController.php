@@ -8,11 +8,11 @@ use App\Models\Menu;
 
 class MenuController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function getListarMenus($tipo)
+    {
+        $data = Menu::where('tipo','=',$tipo)->get();
+        return response()->json($data);
+    }
     public function setRegistrarMenu01(Request $request)
     {
         $data = request()->all();
@@ -66,21 +66,66 @@ class MenuController extends Controller
         return $rpta;
     }
 
-    public function getListarMenu01($tipo)
+    public function setRegistrarImagenMenu02(Request $request)
     {
-        $data = Menu::where('tipo','=',$tipo)->get();
-        return response()->json($data);
-    }
+        $data = request()->all();
+        $iTitle             = $data["iTitle"];
+        $iDescription       = $data["iDescription"];
+        $urlImgOld          = $data["urlImgOld"];
+        $id                 = $data["id"];
+        $tipo               = 'Menu02';
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+        $dataCount = Menu::where('tipo','=',$tipo)->get()->count(); //Hay registros con estado 1
+        if($dataCount == 0){
+            //Registrar
+            $imagen             = $request->file('iImagen')->store('public/Menus');
+            $url                = Storage::url($imagen);
+
+            $arrData =  array(
+                            'tipo'=> $tipo,
+                            'datajson' => array(
+                                    'img_title_desc'=>
+                                    array(
+                                            'img'=> $url,
+                                            'title'=> $iTitle,
+                                            'desc'=> $iDescription
+                                    ),
+                                    'carta'=> array()
+                            )
+
+                        );
+
+            $rpta = Menu::create([
+                'tipo' => $tipo,
+                'estructura' => json_encode($arrData),
+                'estado' => 1, //Inactivo automáticamente
+            ]);
+
+        }else{
+            //Editar
+            $valImg = $request->file('iImagen');
+            if(!empty($valImg)){
+                $url = Storage::url($request->file('iImagen')->store('public/Menus'));
+                Storage::delete(str_replace('storage','public',$urlImgOld));
+            }else{
+                $url = $urlImgOld;
+            }
+            $arrData =  array(
+                'tipo'=> $tipo,
+                'datajson' => array(
+                        'img_title_desc'=>
+                        array(
+                                'img'=> $url,
+                                'title'=> $iTitle,
+                                'desc'=> $iDescription
+                        ),
+                        'carta'=> array()
+                )
+            );
+
+            $rpta = Menu::where('id', $id)->update(['estructura' => json_encode($arrData)]);
+        }
+        return $rpta;
     }
 
     /**

@@ -69,8 +69,9 @@ Route::post('/slider/cambiarEstadoView', [SliderController::class, 'cambiarEstad
 
 //MENU01
 Route::post('/menus/setRegistrarMenu01', [MenuController::class, 'setRegistrarMenu01']);
-Route::get('/menus/getListarMenu01/{tipo}', [MenuController::class, 'getListarMenu01']);
-
+Route::get('/menus/getListarMenus/{tipo}', [MenuController::class, 'getListarMenus']);
+//MENU02
+Route::post('/menus/setRegistrarImagenMenu02', [MenuController::class, 'setRegistrarImagenMenu02']);
 
 
 Route::get('/{any}', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
