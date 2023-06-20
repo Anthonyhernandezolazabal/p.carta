@@ -4,6 +4,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\NavegationController;
 use App\Http\Controllers\SliderController;
 use App\Models\Navegation;
+use App\Models\Menu;
 use Illuminate\Support\Facades\Route;
 use App\Models\Slider;
 /*
@@ -23,27 +24,19 @@ use App\Models\Slider;
 
 
 Route::get('/', function(){
+    //SLIDER
     $header = Slider::where('estado','=',1)->get();
-
-    //MENÚ
+    //NAVEGACIÓN
     $navegacionMenu = Navegation::where('tipo','=','menu', 'and', 'estado', '=', 1)->first();
-    if(!empty($navegacionMenu)){
-        $arrMenu=json_decode($navegacionMenu["nombre"],TRUE);
-        $arrMenuNombres = $arrMenu[0]["nombres"];
-    }else{
-        $arrMenuNombres = 0;
-    }
-
+    $arrMenuNombres = (!empty($navegacionMenu)) ? json_decode($navegacionMenu["nombre"],TRUE)[0]["nombres"] : 0;
     //LOGO
     $navegacionLogo = Navegation::where('tipo','=','logo', 'and', 'estado', '=', 1)->first();
-    if(!empty($navegacionLogo)){
-        $arrLogo=json_decode($navegacionLogo["nombre"],TRUE);
-        $arrLogoNombres = $arrLogo[0]["nombres"];
-    }else{
-        $arrLogoNombres = 0;
-    }
+    $arrLogoNombres = (!empty($navegacionLogo)) ? json_decode($navegacionLogo["nombre"],TRUE)[0]["nombres"] : 0;
+    //MENU01
+    $menu01 = Menu::where('tipo','=','Menu01')->first();
+    $arrMenu01 = (!empty($menu01)) ?json_decode($menu01["estructura"],TRUE) : 0;
 
-    return view('web',compact('header','arrMenuNombres','arrLogoNombres'));
+    return view('web',compact('header','arrMenuNombres','arrLogoNombres','arrMenu01'));
 });
 
 // Route::get('/{any}', function () {

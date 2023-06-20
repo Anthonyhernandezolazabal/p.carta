@@ -105,13 +105,12 @@
                 }).then(response => {
                     this.loadingMenu = false;
                     this.$message({
-                        showClose: true,
                         message: '¡Se realizaron los cambios con éxitos!',
                         type: 'success'
                     });
                     this.getListaMenu();
                 }).catch(error => {
-                    alert(error)
+                    toastr.error(error);
                 })
 
 
@@ -121,43 +120,34 @@
                 this.error = 0;
                 let msm = "";
                 if (!this.fillAddMenu.menu01) {
-                    msm = "¡Hay campos obligatorios!";
-                    this.alertmodal(msm)
+                    msm = "¡Menú 01 es un campo obligatorio!";
+                    toastr.info(msm);
                     this.error = 1;
                 }
                 if (!this.fillAddMenu.menu02) {
-                    msm = "¡Hay campos obligatorios!";
-                    this.alertmodal(msm)
+                    msm = "¡Menú 02 es un campo obligatorio!";
+                    toastr.info(msm);
                     this.error = 1;
                 }
                 if (!this.fillAddMenu.menu03) {
-                    msm = "¡Hay campos obligatorios!";
-                    this.alertmodal(msm)
+                    msm = "¡Menú 03 es un campo obligatorio!";
+                    toastr.info(msm);
                     this.error = 1;
                 }
                 if (!this.fillAddMenu.menu04) {
-                    msm = "¡Hay campos obligatorios!";
-                    this.alertmodal(msm)
+                    msm = "¡Menú 04 es un campo obligatorio!";
+                    toastr.info(msm);
                     this.error = 1;
                 }
                 if (!this.fillAddMenu.menu05) {
-                    msm = "¡Hay campos obligatorios!";
-                    this.alertmodal(msm)
+                    msm = "¡Menú 05 es un campo obligatorio!";
+                    toastr.info(msm);
                     this.error = 1;
                 }
-
-
                 return this.error;
             },
 
-            alertmodal(msm){
-                this.$notify({
-                    title: 'Oops!',
-                    message: msm,
-                    position: 'top-left',
-                    type: 'warning'
-                });
-            },
+          
         }
     };
 

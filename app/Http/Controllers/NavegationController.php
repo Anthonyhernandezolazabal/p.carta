@@ -42,14 +42,16 @@ class NavegationController extends Controller
     {
         $data = request()->all();
 
-
         $pathOld = $data["pathOld"];
         $validar_img = $request->file('path');
         $url = '';
 
-        if(isset($validar_img)){
+        if(!empty($validar_img)){
             $imagenes = $request->file('path')->store('public/Configuraciones');
             $url .= Storage::url($imagenes);
+            // eliminar Imágen anterior
+            $imgDeleted = str_replace('storage','public',$pathOld);
+            Storage::delete($imgDeleted);
         }else{
             $url .= $pathOld;
         }
@@ -81,9 +83,6 @@ class NavegationController extends Controller
             ]);
         }else{
             $rpta = Navegation::where('id', $id)->update(['nombre' => json_encode($datajson)]);
-            // eliminar Imágen anterior
-            $imgDeleted = str_replace('storage','public',$pathOld);
-            Storage::delete($imgDeleted);
         }
 
         return $rpta;

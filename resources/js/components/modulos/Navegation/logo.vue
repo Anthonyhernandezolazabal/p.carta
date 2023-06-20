@@ -12,7 +12,8 @@
         <br>
         <center>
             <div v-loading="loadingLogo">
-                <el-avatar :size="118" :src="srcLogo"></el-avatar>
+                <el-avatar v-if="srcLogo === ''" :size="118" :src="srcLogoDefault"></el-avatar>
+                <el-avatar v-else :size="118" :src="srcLogo"></el-avatar>
             </div>
             <br>
             <el-button type="success" :disabled="loadingLogo" icon="el-icon-check" circle @click="addLogo"></el-button>
@@ -28,7 +29,8 @@
         },
         data() {
             return {
-                srcLogo: '/img/user-1-118x118.jpg',
+                srcLogoDefault: '/img/user-1-118x118.jpg',
+                srcLogo: '',
                 oLogo: '',
                 idLogo: '',
                 pathOld: '',
@@ -75,39 +77,40 @@
                 return isIMG && isLt2M;
             },
             addLogo(){
-
-                this.loadingLogo = true;
-
-                this.form.append('id', this.idLogo)
-                this.form.append('path', this.oLogo)
-                this.form.append('pathOld', this.pathOld)
-                this.form.append('imgLogo', this.nameLogo)
-                const config = {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
+                if(!this.srcLogo){
+                    toastr.info('¡Debe seleccionar una imágen!');
+                }else{
+                    this.loadingLogo = true;
+                    this.form.append('id', this.idLogo)
+                    this.form.append('path', this.oLogo)
+                    this.form.append('pathOld', this.pathOld)
+                    this.form.append('imgLogo', this.nameLogo)
+                    const config = {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
                     }
+                    var url = '/navegation/addLogo'
+                    axios.post(url, this.form, config)
+                        .then((response) => {
+                            this.loadingLogo = false;
+                            this.getMostrarLogo();
+                            this.$notify({
+                                title: 'Registrado',
+                                message: '¡Se realizaron los cambios con éxitos!',
+                                position: 'bottom-right',
+                                type: 'success'
+                            });
+                        })
+                        .catch((error) => {
+                            this.loadingLogo = false;
+                            this.$message({
+                                type: 'error',
+                                message: 'Error en imágen: '+error
+                            });
+                    });
+
                 }
-
-                var url = '/navegation/addLogo'
-                axios.post(url, this.form, config)
-                    .then((response) => {
-                        this.loadingLogo = false;
-                        this.getMostrarLogo();
-                        this.$notify({
-                            title: 'Registrado',
-                            message: '¡Se realizaron los cambios con éxitos!',
-                            position: 'bottom-right',
-                            type: 'success'
-                        });
-                    })
-                    .catch((error) => {
-                        this.loadingLogo = false;
-                        this.$message({
-                            type: 'error',
-                            message: 'Error en imágen: '+error
-                        });
-                });
-
 
 
 

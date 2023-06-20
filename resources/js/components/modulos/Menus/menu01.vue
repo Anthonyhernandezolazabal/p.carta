@@ -37,14 +37,10 @@
                                 </div>
                                 <el-divider content-position="left">Descripción</el-divider>
 
-
-
-                                <vue-editor v-model="fillRegistro.cDescription"></vue-editor>
-
+                                <ckeditor v-model="fillRegistro.cDescription"></ckeditor>
 
                             </el-card>
                         </div>
-
 
                     </div>
                     <center><el-button type="primary" @click.prevent="saveRegistro" :disabled="loadingsaveMenu01">Guardar</el-button></center>

@@ -4,10 +4,10 @@ window.Vue = require('vue').default;
 
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-import VueEditor from "vue2-editor";
+import CKEditor from 'ckeditor4-vue'
 
 Vue.use(ElementUI);
-Vue.use(VueEditor);
+Vue.use(CKEditor);
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('navbar-component', require('./components/layouts/Navbar.vue').default);
