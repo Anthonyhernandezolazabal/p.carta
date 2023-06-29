@@ -16,6 +16,7 @@
             </div>
         </section>
 
+
         <section class="content">
             <div class="container-fluid">
                 <button type="button" @click="dialogVisible = true" class="btn btn-info btn-flat mb-2 btn-sm">Imágen</button>
@@ -25,8 +26,8 @@
                         <el-card class="box-card" style="height: 600px;overflow-y: auto">
                             <div slot="header" class="clearfix">
                                 <span v-text="row.section"></span>
-                                <el-button style="float: right; padding: 3px 0;" type="text"><i class="el-icon-delete-solid" style="color: #F56C6C"></i></el-button>
-                                <el-button style="float: right; padding: 3px 0; margin-right: 5px" type="text"><i class="el-icon-edit" style="color: #E6A23C"></i></el-button>
+                                <el-button @click="confirmar(i)" style="float: right; padding: 3px 0;" type="text"><i class="el-icon-delete-solid" style="color: #F56C6C"></i></el-button>
+                                <el-button @click="edelCarta(i,'edit')" style="float: right; padding: 3px 0; margin-right: 5px" type="text"><i class="el-icon-edit" style="color: #E6A23C"></i></el-button>
                             </div>
                             <div class="text item">
                                 <div v-for="item,e in row.listas" :key="e">
@@ -173,6 +174,7 @@
         },
         data() {
             return {
+                visible: false,
                 fillRegistroImagen: {
                     iTitle: '',
                     iDescription: '',
@@ -229,10 +231,7 @@
                                 this.urlImgOld = data.img_title_desc.img
                                 this.idImg = rpta.data[0].id
                             }
-                            if (data.carta.length != 0) {
-                                console.log("===>",data.carta)
-                                this.dCarta = data.carta
-                            }
+                            this.dCarta = data.carta
                         }
                     })
                     .catch(function (error) {
@@ -460,6 +459,41 @@
                 }
 
             },
+            confirmar(i){
+                this.$confirm('¿Eliminar esta carta?', '', {
+                    confirmButtonText: 'OK',
+                    cancelButtonText: 'Cancelar',
+                    type: 'warning',
+                    center: true
+                }).then(() => {
+                    this.edelCarta(i,'deleted');
+                }).catch(() => {});
+            },
+            edelCarta(id,e){
+                let url = 'menus/getEditarEliminarCarta/'+id+'/'+e;
+                axios
+                    .get(url)
+                    .then((rpta) => {
+                    if(e == "edit"){
+                        console.log("::::",rpta)
+                    }
+                    if(e == "deleted"){
+                        this.$message({
+                            message: 'Se ha eliminado la carta.',
+                            type: 'success'
+                        });
+                        this.getListaMenu02();
+                    }
+                })
+                    .catch(function (error) {
+                    toastr.error(error);
+                });
+            }
+
+
+
+
+            // {"tipo":"Menu02","datajson":{"img_title_desc":{"img":"\/storage\/Menus\/cygx4X2JYewVnXJmdp5X8cFgWEoMOTKb7ZFYeaKL.jpg","title":"MENU","desc":"Lorem ipsum dolor sit amet, consectetur adipiscing elit duis sed."},"carta":[{"section":"COFFEE & DRINKS","listas":[{"title":"Delicious Dish","price":30,"detalle":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, duis sed dapibus leo nec ornare diam."},{"title":"Delicious Dish","price":35,"detalle":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, duis sed dapibus leo nec ornare diam."},{"title":"Delicious Dish","price":38,"detalle":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, duis sed dapibus leo nec ornare diam."},{"title":"Delicious Dish","price":40,"detalle":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, duis sed dapibus leo nec ornare diam."}]}]}}
         }
     };
 

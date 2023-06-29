@@ -73,6 +73,7 @@ Route::get('/menus/getListarMenus/{tipo}', [MenuController::class, 'getListarMen
 //MENU02
 Route::post('/menus/setRegistrarImagenMenu02', [MenuController::class, 'setRegistrarImagenMenu02']);
 Route::post('/menus/setRegistrarSectionMenu02', [MenuController::class, 'setRegistrarSectionMenu02']);
+Route::get('/menus/getEditarEliminarCarta/{id}/{e}', [MenuController::class, 'getEditarEliminarCarta']);
 
 
 Route::get('/{any}', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

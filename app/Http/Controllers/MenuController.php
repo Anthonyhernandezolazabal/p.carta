@@ -169,35 +169,43 @@ class MenuController extends Controller
 
         return $rpta;
     }
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+
+    public function getEditarEliminarCarta($id,$e)
     {
-        //
+
+        $tipo = "Menu02";
+        $data = Menu::where('tipo','=',$tipo)->first();
+        if($e == "edit")
+        {
+            $rpta = json_encode(json_decode($data["estructura"])->datajson->carta[$id]);
+        }
+        if($e == "deleted")
+        {
+            $rpta = json_decode($data["estructura"])->datajson->carta;
+            unset($rpta[$id]);
+
+            $arrData =  array(
+                'tipo'=> $tipo,
+                'datajson' => array(
+                        'img_title_desc'=>json_decode($data["estructura"])->datajson->img_title_desc,
+                        'carta'=> array_values($rpta)
+
+                )
+            );
+
+            $rpta = Menu::where('tipo', $tipo)->update(['estructura' => json_encode($arrData)]);
+        }
+
+        return $rpta;
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
         //
