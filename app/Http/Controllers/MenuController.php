@@ -75,8 +75,8 @@ class MenuController extends Controller
         $id                 = $data["id"];
         $tipo               = 'Menu02';
 
-        $dataCount = Menu::where('tipo','=',$tipo)->get()->count(); //Hay registros con estado 1
-        if($dataCount == 0){
+        $dataCount = Menu::where('tipo','=',$tipo)->get(); //Hay registros con estado 1
+        if($dataCount->count() == 0){
             //Registrar
             $imagen             = $request->file('iImagen')->store('public/Menus');
             $url                = Storage::url($imagen);
@@ -102,7 +102,7 @@ class MenuController extends Controller
             ]);
 
         }else{
-            //Editar
+            // //Editar
             $valImg = $request->file('iImagen');
             if(!empty($valImg)){
                 $url = Storage::url($request->file('iImagen')->store('public/Menus'));
@@ -119,7 +119,7 @@ class MenuController extends Controller
                                 'title'=> $iTitle,
                                 'desc'=> $iDescription
                         ),
-                        'carta'=> array()
+                        'carta'=> json_decode($dataCount[0]["estructura"])->datajson->carta
                 )
             );
 
@@ -128,17 +128,47 @@ class MenuController extends Controller
         return $rpta;
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function setRegistrarSectionMenu02(Request $request)
     {
-        //
-    }
+        $data      = request()->all();
+        $carta     = json_decode($data["carta"])->carta;
+        $tipo      = 'Menu02';
 
+        $dataCount = Menu::where('tipo','=',$tipo)->get(); //Hay registros con estado 1e
+        if($dataCount->count() == 0){
+            //Registra
+            $arrData =  array(
+                'tipo'=> $tipo,
+                'datajson' => array(
+                        'img_title_desc'=>array(),
+                        'carta'=> $carta
+                )
+            );
+            $rpta = Menu::create([
+                'tipo' => $tipo,
+                'estructura' => json_encode($arrData),
+                'estado' => 1, //Inactivo automáticamente
+            ]);
+
+        }else{
+            //Editar
+            $mydata = json_decode($dataCount[0]["estructura"])->datajson->carta;  //Viene de la BD
+            array_push($mydata,$carta[0]);
+
+            $arrData =  array(
+                'tipo'=> $tipo,
+                'datajson' => array(
+                        'img_title_desc'=>json_decode($dataCount[0]["estructura"])->datajson->img_title_desc,
+                        'carta'=> $mydata
+
+                )
+            );
+
+            $rpta = Menu::where('tipo', $tipo)->update(['estructura' => json_encode($arrData)]);
+        }
+
+        return $rpta;
+    }
     /**
      * Show the form for editing the specified resource.
      *
