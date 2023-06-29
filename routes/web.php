@@ -34,9 +34,12 @@ Route::get('/', function(){
     $arrLogoNombres = (!empty($navegacionLogo)) ? json_decode($navegacionLogo["nombre"],TRUE)[0]["nombres"] : 0;
     //MENU01
     $menu01 = Menu::where('tipo','=','Menu01')->first();
-    $arrMenu01 = (!empty($menu01)) ?json_decode($menu01["estructura"],TRUE) : 0;
+    $arrMenu01 = (!empty($menu01)) ? json_decode($menu01["estructura"],TRUE) : 0;
+    //MENU02
+    $menu02 = Menu::where('tipo','=','Menu02')->first();
+    $arrMenu02 = (!empty($menu02)) ? json_decode($menu02["estructura"],TRUE) : 0;
 
-    return view('web',compact('header','arrMenuNombres','arrLogoNombres','arrMenu01'));
+    return view('web',compact('header','arrMenuNombres','arrLogoNombres','arrMenu01','arrMenu02'));
 });
 
 // Route::get('/{any}', function () {

@@ -22,7 +22,7 @@
                 <button type="button" @click="dialogVisible = true" class="btn btn-info btn-flat mb-2 btn-sm">Imágen</button>
                 <button type="button" @click="limpiar" class="btn btn-info btn-flat mb-2 btn-sm">Sección</button>
                 <div class="row" v-loading="loadingImgMenu02">
-                    <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 mb-4" v-for="row,i in dCarta" :key="i">
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-4" v-for="row,i in dCarta" :key="i">
                         <el-card class="box-card" style="height: 600px;overflow-y: auto">
                             <div slot="header" class="clearfix">
                                 <span v-text="row.section"></span>
