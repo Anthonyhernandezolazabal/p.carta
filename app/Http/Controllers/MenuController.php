@@ -132,40 +132,58 @@ class MenuController extends Controller
     {
         $data      = request()->all();
         $carta     = json_decode($data["carta"])->carta;
+        $est       = $data["estado"];
+        $idCar     = $data["idCartaEdit"];
         $tipo      = 'Menu02';
 
         $dataCount = Menu::where('tipo','=',$tipo)->get(); //Hay registros con estado 1e
-        if($dataCount->count() == 0){
-            //Registra
-            $arrData =  array(
-                'tipo'=> $tipo,
-                'datajson' => array(
-                        'img_title_desc'=>array(),
-                        'carta'=> $carta
-                )
-            );
-            $rpta = Menu::create([
-                'tipo' => $tipo,
-                'estructura' => json_encode($arrData),
-                'estado' => 1, //Inactivo automáticamente
-            ]);
 
-        }else{
-            //Editar
-            $mydata = json_decode($dataCount[0]["estructura"])->datajson->carta;  //Viene de la BD
-            array_push($mydata,$carta[0]);
+        if($est == "Add"){
+            if($dataCount->count() == 0){
+                //Registra
+                $arrData =  array(
+                    'tipo'=> $tipo,
+                    'datajson' => array(
+                            'img_title_desc'=>array(),
+                            'carta'=> $carta
+                    )
+                );
+                $rpta = Menu::create([
+                    'tipo' => $tipo,
+                    'estructura' => json_encode($arrData),
+                    'estado' => 1, //Inactivo automáticamente
+                ]);
+
+            }else{
+                //Editar
+                $mydata = json_decode($dataCount[0]["estructura"])->datajson->carta;  //Viene de la BD
+                array_push($mydata,$carta[0]);
+                $arrData =  array(
+                    'tipo'=> $tipo,
+                    'datajson' => array(
+                            'img_title_desc'=>json_decode($dataCount[0]["estructura"])->datajson->img_title_desc,
+                            'carta'=> $mydata
+
+                    )
+                );
+                $rpta = Menu::where('tipo', $tipo)->update(['estructura' => json_encode($arrData)]);
+            }
+        }
+
+        if($est == "edit"){
+            $rpta = json_decode($dataCount[0]["estructura"])->datajson->carta;
+            $rpta[$idCar]=$carta[0];
 
             $arrData =  array(
                 'tipo'=> $tipo,
                 'datajson' => array(
                         'img_title_desc'=>json_decode($dataCount[0]["estructura"])->datajson->img_title_desc,
-                        'carta'=> $mydata
-
+                        'carta'=> array_values($rpta)
                 )
             );
-
             $rpta = Menu::where('tipo', $tipo)->update(['estructura' => json_encode($arrData)]);
         }
+
 
         return $rpta;
     }
@@ -189,7 +207,6 @@ class MenuController extends Controller
                 'datajson' => array(
                         'img_title_desc'=>json_decode($data["estructura"])->datajson->img_title_desc,
                         'carta'=> array_values($rpta)
-
                 )
             );
 

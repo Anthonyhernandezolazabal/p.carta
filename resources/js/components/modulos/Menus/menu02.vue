@@ -20,14 +20,14 @@
         <section class="content">
             <div class="container-fluid">
                 <button type="button" @click="dialogVisible = true" class="btn btn-info btn-flat mb-2 btn-sm">Imágen</button>
-                <button type="button" @click="table = true" class="btn btn-info btn-flat mb-2 btn-sm">Sección</button>
-                <div class="row">
+                <button type="button" @click="limpiar" class="btn btn-info btn-flat mb-2 btn-sm">Sección</button>
+                <div class="row" v-loading="loadingImgMenu02">
                     <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 mb-4" v-for="row,i in dCarta" :key="i">
                         <el-card class="box-card" style="height: 600px;overflow-y: auto">
                             <div slot="header" class="clearfix">
                                 <span v-text="row.section"></span>
                                 <el-button @click="confirmar(i)" style="float: right; padding: 3px 0;" type="text"><i class="el-icon-delete-solid" style="color: #F56C6C"></i></el-button>
-                                <el-button @click="edelCarta(i,'edit')" style="float: right; padding: 3px 0; margin-right: 5px" type="text"><i class="el-icon-edit" style="color: #E6A23C"></i></el-button>
+                                <el-button @click="mostrarEdit(i)" style="float: right; padding: 3px 0; margin-right: 5px" type="text"><i class="el-icon-edit" style="color: #E6A23C"></i></el-button>
                             </div>
                             <div class="text item">
                                 <div v-for="item,e in row.listas" :key="e">
@@ -85,16 +85,15 @@
             </div>
         </el-dialog>
 
-        <!-- REGISTRO DE LA CARTA -->
-        <el-drawer title="Registrar carta" :visible.sync="table" direction="rtl" size="50%">
-            <el-form :model="dynamicValidateForm" ref="dynamicValidateForm" label-width="120px" class="demo-dynamic">
+        <!-- REGISTRO / EDIT DE LA CARTA -->
+        <el-drawer :title="titleR_E" :visible.sync="table" direction="rtl" size="50%">
+            <el-form :model="dynamicValidateForm" ref="dynamicValidateForm" label-width="120px" class="demo-dynamic" v-loading="loadingRE">
                 <el-card shadow="never">
                     <div class="row">
-                        <div class="col-md-1"></div>
-                        <div class="col-md-10">
+                        <div class="col-xl-1 col-lg-12 col-md-12 col-sm-12"></div>
+                        <div class="col-xl-10 col-lg-12 col-md-12 col-sm-12">
                             <div slot="header" class="clearfix">
                                 <el-form ref="dynamicValidateForm" label-width="120px" class="demo-dynamic">
-
                                     <el-divider content-position="left">Nombre Sección</el-divider>
                                     <el-input type="text" placeholder="Sección" maxlength="50" v-model="valueSection"
                                         show-word-limit>
@@ -149,19 +148,19 @@
                                         </el-tooltip>
                                         <el-tooltip class="item" effect="dark" content="Registrar"
                                             placement="top-start">
-                                            <el-button type="success" icon="el-icon-check" :disabled="loadingImgMenu02"
-                                                @click="submitForm(dynamicValidateForm)" circle></el-button>
+                                            <el-button type="success" icon="el-icon-check" :disabled="loadingImgMenu02" @click="submitForm(dynamicValidateForm)" circle></el-button>
                                         </el-tooltip>
                                     </el-row>
 
                                 </el-form>
                             </div>
                         </div>
-                        <div class="col-md-1"></div>
+                        <div class="col-xl-1 col-lg-12 col-md-12 col-sm-12"></div>
                     </div>
                 </el-card>
             </el-form>
         </el-drawer>
+
 
     </div>
 </template>
@@ -183,6 +182,7 @@
                 dCarta: [],
                 url: '/img/img4-slide-2-1920x678.jpg',
                 drawer: false,
+                drawerEdir: false,
                 descrip: 'ttb',
                 menu02: '',
                 dialogVisible: false,
@@ -192,6 +192,7 @@
                     backgroundSize: 'cover',
                     height: '300px',
                 },
+                loadingRE: false,
                 loadingsaveImagen: false,
                 loadingImgMenu02: false,
                 form: new FormData,
@@ -211,6 +212,9 @@
                 divShow: false,
                 cont: 2, //Empieza el segundo div,
                 error: 0,
+                titleR_E: "Registrar carta",
+                estReg: "", //Registra o edita,
+                idCartaEdit: "",
             }
         },
         methods: {
@@ -435,10 +439,13 @@
 
                 if(this.error == 1){
                     toastr.error("Hay campos obligatorios.");
+                    this.loadingImgMenu02 = false;
                 }else{
                     var url = '/menus/setRegistrarSectionMenu02'
                     axios.post(url, {
                         "carta": JSON.stringify(arrrr),
+                        'estado':this.estReg,
+                        'idCartaEdit':this.idCartaEdit,
                     }).then(response => {
                         this.$message({
                             message: 'Se ha registrado correctamente!.',
@@ -469,13 +476,51 @@
                     this.edelCarta(i,'deleted');
                 }).catch(() => {});
             },
+            mostrarEdit(i){
+                this.limpiar()
+                this.idCartaEdit = i;
+                this.estReg = "edit"
+                this.table = true;
+                this.loadingRE = true;
+                this.titleR_E = "Editar carta";
+                this.edelCarta(i,'edit');
+            },
+            limpiar(){
+                this.estReg = "Add"
+                this.titleR_E = "Registrar carta";
+                this.table = true
+                this.dynamicValidateForm.domains.splice(1);
+                this.dynamicValidateForm.domains[0].key = 1;
+                this.dynamicValidateForm.domains[0].valuetitle = ""
+                this.dynamicValidateForm.domains[0].valueprice = ""
+                this.dynamicValidateForm.domains[0].valuedetalle = ""
+                this.valueSection = ""
+            },
             edelCarta(id,e){
                 let url = 'menus/getEditarEliminarCarta/'+id+'/'+e;
                 axios
                     .get(url)
                     .then((rpta) => {
                     if(e == "edit"){
-                        console.log("::::",rpta)
+                        this.loadingRE = false;
+                        this.dynamicValidateForm.domains[0].key = 1
+                        this.dynamicValidateForm.domains[0].valuetitle = rpta.data.listas[0].title
+                        this.dynamicValidateForm.domains[0].valueprice = rpta.data.listas[0].price
+                        this.dynamicValidateForm.domains[0].valuedetalle = rpta.data.listas[0].detalle
+
+                        for (let i = 1; i < rpta.data.listas.length; i++) {
+                            const element = rpta.data.listas[i];
+                            console.log("::::",element)
+                            console.log("::::",this.cont++)
+                            this.dynamicValidateForm.domains.push({
+                                key: this.cont++,
+                                valuetitle: element.title,
+                                valueprice: element.price,
+                                valuedetalle: element.detalle
+                            });
+                        }
+
+                        this.valueSection = rpta.data.section
                     }
                     if(e == "deleted"){
                         this.$message({
