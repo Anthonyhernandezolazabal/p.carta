@@ -46,6 +46,11 @@ export const rutas = [
         name: "menus.menu05",
         component: require("./components/modulos/Menus/menu05.vue").default,
     },
+    {
+        path: "/footer",
+        name: "footer.index",
+        component: require("./components/modulos/Footer/index.vue").default,
+    },
 
 
 ]

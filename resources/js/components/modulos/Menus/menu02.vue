@@ -3,10 +3,10 @@
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
-                    <div class="col-sm-6">
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                         <h1 v-text="menu02"></h1>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
                             <li class="breadcrumb-item active" v-text="menu02"></li>
@@ -48,14 +48,14 @@
         <el-dialog title="Imágen | Título | Descripción" :visible.sync="dialogVisible" width="50%">
             <div v-loading="loadingImgMenu02">
                 <div class="row">
-                    <div class="col-4">
+                    <div class="col-xl-4 col-lg-8 col-md-12 col-sm-12">
                         <el-divider content-position="left">Subir Imágen</el-divider>
                         <div class="custom-file">
                             <input type="file" @change="getImagen" class="custom-file-input">
                             <label class="custom-file-label" for="customFile">Subir archivo</label>
                         </div>
                     </div>
-                    <div class="col-8">
+                    <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
                         <el-divider content-position="left">Título</el-divider>
                         <el-input type="text" placeholder="Título" v-model="fillRegistroImagen.iTitle" maxlength="50"
                             show-word-limit></el-input>
@@ -103,19 +103,19 @@
 
 
                                         <div class="row mb-2 mt-0">
-                                            <div class="col-8">
+                                            <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
                                                 <el-divider content-position="left">Título</el-divider>
                                                 <el-input type="text" v-model="domain.valuetitle" placeholder="Título"
                                                     maxlength="50" show-word-limit class="mb-2"></el-input>
                                             </div>
 
                                             <template v-if="domain.key != 1">
-                                                <div class="col-3">
+                                                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
                                                     <el-divider content-position="left">Precio</el-divider>
                                                     <el-input-number v-model="domain.valueprice" :min="1">
                                                     </el-input-number>
                                                 </div>
-                                                <div class="col-1">
+                                                <div class="col-xl-1 col-lg-12 col-md-12 col-sm-12">
                                                     <el-divider content-position="center">Eliminar</el-divider>
                                                     <el-button type="danger" icon="el-icon-delete" circle
                                                         @click="removeDomain(domain)"></el-button>
@@ -124,7 +124,7 @@
 
                                             <template v-else>
 
-                                                <div class="col-4">
+                                                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
                                                     <el-divider content-position="left">Precio</el-divider>
                                                     <el-input-number v-model="domain.valueprice" :min="1">
                                                     </el-input-number>
@@ -510,8 +510,6 @@
 
                         for (let i = 1; i < rpta.data.listas.length; i++) {
                             const element = rpta.data.listas[i];
-                            console.log("::::",element)
-                            console.log("::::",this.cont++)
                             this.dynamicValidateForm.domains.push({
                                 key: this.cont++,
                                 valuetitle: element.title,
@@ -534,10 +532,6 @@
                     toastr.error(error);
                 });
             }
-
-
-
-
             // {"tipo":"Menu02","datajson":{"img_title_desc":{"img":"\/storage\/Menus\/cygx4X2JYewVnXJmdp5X8cFgWEoMOTKb7ZFYeaKL.jpg","title":"MENU","desc":"Lorem ipsum dolor sit amet, consectetur adipiscing elit duis sed."},"carta":[{"section":"COFFEE & DRINKS","listas":[{"title":"Delicious Dish","price":30,"detalle":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, duis sed dapibus leo nec ornare diam."},{"title":"Delicious Dish","price":35,"detalle":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, duis sed dapibus leo nec ornare diam."},{"title":"Delicious Dish","price":38,"detalle":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, duis sed dapibus leo nec ornare diam."},{"title":"Delicious Dish","price":40,"detalle":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, duis sed dapibus leo nec ornare diam."}]}]}}
         }
     };

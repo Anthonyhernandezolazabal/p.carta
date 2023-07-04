@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FooterController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\NavegationController;
 use App\Http\Controllers\SliderController;
@@ -77,6 +78,12 @@ Route::get('/menus/getListarMenus/{tipo}', [MenuController::class, 'getListarMen
 Route::post('/menus/setRegistrarImagenMenu02', [MenuController::class, 'setRegistrarImagenMenu02']);
 Route::post('/menus/setRegistrarSectionMenu02', [MenuController::class, 'setRegistrarSectionMenu02']);
 Route::get('/menus/getEditarEliminarCarta/{id}/{e}', [MenuController::class, 'getEditarEliminarCarta']);
+
+//FOOTER
+Route::post('/footer/setRegistrarFooter', [FooterController::class, 'setRegistrarFooter']);
+Route::get('/footer/getListarFooter/{tipo}', [FooterController::class, 'getListarFooter']);
+Route::get('/footer/getEditarEliminarFooter/{id}/{e}', [FooterController::class, 'getEditarEliminarFooter']);
+
 
 
 Route::get('/{any}', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

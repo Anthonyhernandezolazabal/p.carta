@@ -90,12 +90,12 @@
                 </router-link>
               </li>
 
-              <li class="nav-header">REPORTES</li>
+              <li class="nav-header">Footer</li>
               <li class="nav-item">
-                <a href="reportes" class="nav-link">
-                  <i class="nav-icon far fa-file-powerpoint"></i>
-                  <p>Reporte de Ventas</p>
-                </a>
+                <router-link :to="'/footer'" class="nav-link">
+                    <i class="nav-icon el-icon-caret-bottom"></i>
+                    <p>Pié de página</p>
+                </router-link>
               </li>
             </ul>
           </nav>
