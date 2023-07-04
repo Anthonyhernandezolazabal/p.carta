@@ -4,6 +4,7 @@ use App\Http\Controllers\FooterController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\NavegationController;
 use App\Http\Controllers\SliderController;
+use App\Models\Footer;
 use App\Models\Navegation;
 use App\Models\Menu;
 use Illuminate\Support\Facades\Route;
@@ -39,8 +40,11 @@ Route::get('/', function(){
     //MENU02
     $menu02 = Menu::where('tipo','=','Menu02')->first();
     $arrMenu02 = (!empty($menu02)) ? json_decode($menu02["estructura"],TRUE) : 0;
+    //FOOTER
+    $footer = Footer::where('tipo','=','Footer')->first();
+    $arrFooter = (!empty($footer)) ? json_decode($footer["estructura"],TRUE) : 0;
 
-    return view('web',compact('header','arrMenuNombres','arrLogoNombres','arrMenu01','arrMenu02'));
+    return view('web',compact('header','arrMenuNombres','arrLogoNombres','arrMenu01','arrMenu02','arrFooter'));
 });
 
 // Route::get('/{any}', function () {
