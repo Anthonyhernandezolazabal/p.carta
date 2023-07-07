@@ -88,6 +88,8 @@ Route::post('/footer/setRegistrarFooter', [FooterController::class, 'setRegistra
 Route::get('/footer/getListarFooter/{tipo}', [FooterController::class, 'getListarFooter']);
 Route::get('/footer/getEditarEliminarFooter/{id}/{e}', [FooterController::class, 'getEditarEliminarFooter']);
 
+Route::post('/footer/setRegistrarFooter02', [FooterController::class, 'setRegistrarFooter02']);
+
 
 
 Route::get('/{any}', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

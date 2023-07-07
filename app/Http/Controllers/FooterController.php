@@ -63,14 +63,11 @@ class FooterController extends Controller
         return $arrData;
 
     }
-
     public function getListarFooter($tipo)
     {
         $data = Footer::where('tipo','=',$tipo)->get();
         return response()->json($data);
     }
-
-
     public function getEditarEliminarFooter($id,$e)
     {
 
@@ -94,6 +91,46 @@ class FooterController extends Controller
 
             $rpta = Footer::where('tipo', $tipo)->update(['estructura' => json_encode($arrData)]);
         }
+        return $rpta;
+    }
+
+    public function setRegistrarFooter02(Request $request){
+        $data       = request()->all();
+        $icon        = $data["icon"];
+        $url        = $data["url"];
+        $copy        = $data["copy"];
+        $tipo = "Footer02";
+        $arr = [
+            'icon'  => $icon,
+            'url'   => $url,
+        ];
+        $arrData =  array(
+            'tipo'=> $tipo,
+            'copy'  => $copy,
+            'datajson' => array($arr)
+        );
+
+        $dataCountF02  = Footer::where('tipo','=',$tipo)->get(); //Hay registros con estado 1e
+
+        if($dataCountF02->count() == 0){
+            //Registra
+            $rpta = Footer::create([
+                'tipo' => $tipo,
+                'estructura' => json_encode($arrData),
+                'estado' => 1,
+            ]);
+        }else{
+            //edit
+            $mydata = json_decode($dataCountF02[0]->estructura,true)["datajson"];  //Viene de la BD
+            array_push($mydata,$arr);
+            $arrData =  array(
+                'tipo'=> $tipo,
+                'copy'  => $copy,
+                'datajson' => $mydata
+            );
+            $rpta = Footer::where('tipo', $tipo)->update(['estructura' => json_encode($arrData)]);
+        }
+
         return $rpta;
     }
 }
