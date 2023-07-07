@@ -1,9 +1,9 @@
 <div id="footer">
-    <div class="container text-center">
+    <div class="container text-center ft_01">
 
         @if ($arrFooter != 0)
           @foreach ($arrFooter["datajson"]["footer"] as $row)
-              <div class="col-md-4">
+              <div class="col-md-3" style="margin: auto;">
                 <h3>{{$row["section"]}}</h3>
                 <div class="contact-item">
                     @foreach ($row["listas"] as $item)
@@ -30,13 +30,13 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="social">
                 <ul>
-                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                    <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                    @foreach ($arrFooter02["datajson"] as $item)
+                        <li><a href="{{ $item['url'] }}" target="_blank"><i class="fa {{ $item['icon'] }}"></i></a></li>
+                    @endforeach
                 </ul>
             </div>
-            <p>&copy; 2016 Touché. All rights reserved. Designed by <a href="http://www.templatewire.com"
-                    rel="nofollow">TemplateWire</a></p>
+
+            <p>{{ $arrFooter02 !=0 ? $arrFooter02["copy"] : '&copy; 2016 Touché. All rights reserved. Designed by TemplateWire'}}</p>
         </div>
     </div>
 </div>

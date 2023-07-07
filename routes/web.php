@@ -43,8 +43,11 @@ Route::get('/', function(){
     //FOOTER
     $footer = Footer::where('tipo','=','Footer')->first();
     $arrFooter = (!empty($footer)) ? json_decode($footer["estructura"],TRUE) : 0;
-
-    return view('web',compact('header','arrMenuNombres','arrLogoNombres','arrMenu01','arrMenu02','arrFooter'));
+    //FOOTER02
+    $footer02 = Footer::where('tipo','=','Footer02')->first();
+    $arrFooter02 = (!empty($footer02)) ? json_decode($footer02["estructura"],TRUE) : 0;
+    var_dump($arrFooter02["datajson"]);
+    return view('web',compact('header','arrMenuNombres','arrLogoNombres','arrMenu01','arrMenu02','arrFooter','arrFooter02'));
 });
 
 // Route::get('/{any}', function () {

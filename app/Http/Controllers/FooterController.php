@@ -107,7 +107,7 @@ class FooterController extends Controller
         $arrData =  array(
             'tipo'=> $tipo,
             'copy'  => $copy,
-            'datajson' => array($arr)
+            'datajson' => ($icon == null & $url == null) ? array() : array($arr)
         );
 
         $dataCountF02  = Footer::where('tipo','=',$tipo)->get(); //Hay registros con estado 1e
@@ -122,7 +122,7 @@ class FooterController extends Controller
         }else{
             //edit
             $mydata = json_decode($dataCountF02[0]->estructura,true)["datajson"];  //Viene de la BD
-            array_push($mydata,$arr);
+            ($icon == null & $url == null) ? $mydata : array_push($mydata,$arr);
             $arrData =  array(
                 'tipo'=> $tipo,
                 'copy'  => $copy,

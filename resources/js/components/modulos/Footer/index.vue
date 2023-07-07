@@ -191,6 +191,7 @@
                 valueurl: '',
                 copyrigth: '© 2016 Touché. All rights reserved. Designed by TemplateWire',
                 dataAllF02: [],
+                errorF02: 0,
             };
         },
         methods: {
@@ -336,25 +337,44 @@
             },
             addRC(){
                 this.loadingFooter02 = true;
-                var url = '/footer/setRegistrarFooter02'
-                    axios.post(url, {
-                        "icon": this.valuei.slice(3),
-                        'url':this.valueurl,
-                        'copy':this.copyrigth,
-                    }).then(response => {
-                        this.$message({
-                            message: 'Se ha registrado correctamente!.',
-                            type: 'success'
-                        });
-                        this.loadingFooter02 = false;
-                        this.getListaFooter02();
-                        this.valuei = "";
-                        this.valueurl = "";
-                    }).catch(error => {
-                        toastr.error(error);
-                        // this.centerDialogVisibleS1 = false
-                        this.loadingFooter = false;
-                    })
+
+                if(this.valuei){
+                    (!this.valueurl) ? this.errorF02 = 1 : this.errorF02 = 0
+                }else{
+                    this.errorF02 = 0
+                }
+
+                if(this.valueurl){
+                    (!this.valuei) ? this.errorF02 = 1 : this.errorF02 = 0
+                }else{
+                    this.errorF02 = 0
+                }
+
+                if(this.errorF02 == 1){
+                    toastr.info("Hay campos obligatorios.");
+                    this.loadingFooter02 = false;
+                }else{
+                        var url = '/footer/setRegistrarFooter02'
+                        axios.post(url, {
+                            "icon": this.valuei.slice(3),
+                            'url':this.valueurl,
+                            'copy':this.copyrigth,
+                        }).then(response => {
+                            this.$message({
+                                message: 'Se ha registrado correctamente!.',
+                                type: 'success'
+                            });
+                            this.loadingFooter02 = false;
+                            this.getListaFooter02();
+                            this.valuei = "";
+                            this.valueurl = "";
+                        }).catch(error => {
+                            toastr.error(error);
+                            // this.centerDialogVisibleS1 = false
+                            this.loadingFooter = false;
+                        })
+                }
+
             },
             getListaFooter02() {
                 this.loadingFooter02 = true;
