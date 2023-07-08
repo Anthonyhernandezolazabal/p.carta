@@ -96,14 +96,14 @@
                                                     <td class="text-center"><i v-bind:class="'fab '+F02.icon"></i></td>
                                                     <td><a :href="F02.url" target="_blank" v-text="F02.url"></a></td>
                                                     <td class="project-actions text-right">
-                                                        <a class="btn btn-warning btn-sm" href="#">
+                                                        <button class="btn btn-warning btn-sm" @click="editIcon(F02.icon,F02.url,i)">
                                                             <i class="fas fa-pencil-alt">
                                                             </i>
-                                                        </a>
-                                                        <a class="btn btn-danger btn-sm" href="#">
-                                                            <i class="fas fa-trash">
-                                                            </i>
-                                                        </a>
+                                                        </button>
+                                                        <button class="btn btn-danger btn-sm" @click="deleIcon(i,'deleted')">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+
                                                     </td>
                                                 </tr>
 
@@ -118,8 +118,6 @@
             </div>
         </section>
         <el-dialog :title="titleR_E" :visible.sync="centerDialogVisibleS1" width="20%" center>
-
-
             <el-form v-loading="loadingRE" :model="dynamicValidateForm" ref="dynamicValidateForm" label-width="120px" class="demo-dynamic">
                 <el-form ref="dynamicValidateForm" label-width="120px" class="demo-dynamic">
                 <el-input placeholder="Título" v-model="valueSection"></el-input>
@@ -145,9 +143,35 @@
                     </center>
                 </el-form>
             </el-form>
-
         </el-dialog>
 
+
+        <el-dialog
+            title="Warning"
+            :visible.sync="centerDialogVisibleF02"
+            width="20%"
+            center>
+                <el-select v-model="valueiEdit" placeholder="Select">
+                    <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                    </el-option>
+                </el-select>
+                <div class="input-group mb-3 mt-3">
+                <div class="input-group-prepend">
+                        <span class="input-group-text"><i v-bind:class="valueiEdit"></i></span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="url" v-model="valueurlEdit">
+                </div>
+
+
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="centerDialogVisibleF02 = false">Cancel</el-button>
+                <el-button type="primary" @click="centerDialogVisibleF02 = false,editFooter02()">Confirm</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 
@@ -161,6 +185,7 @@
             return {
                 valueSection: '',
                 centerDialogVisibleS1: false,
+                centerDialogVisibleF02: false,
                 dynamicValidateForm: {
                     domains: [{
                         key: 1,
@@ -192,6 +217,9 @@
                 copyrigth: '© 2016 Touché. All rights reserved. Designed by TemplateWire',
                 dataAllF02: [],
                 errorF02: 0,
+                valueiEdit: '',
+                valueurlEdit: '',
+                idFooter02: '',
             };
         },
         methods: {
@@ -280,8 +308,6 @@
                         this.centerDialogVisibleS1 = false
                         this.loadingFooter = false;
                     })
-
-
                 }
             },
             confirmar(i){
@@ -387,12 +413,103 @@
                             let data = JSON.parse(rpta.data[0].estructura).datajson;
                             this.dataAllF02 = data
                             this.copyrigth = JSON.parse(rpta.data[0].estructura).copy
+                            console.log("responseee :",data)
                         }
                     })
                     .catch(function (error) {
                         toastr.error(error);
                     });
             },
+            deleIcon(i,e){
+                this.$confirm('¿Desea eliminaar?', '', {
+                    confirmButtonText: 'Eliminar',
+                    cancelButtonText: 'Cancelar',
+                    type: 'warning',
+                    center: true
+                }).then(() => {
+                    this.edelFooter02(i,e);
+                }).catch(() => {});
+            },
+            editIcon(a,e,i){
+                this.centerDialogVisibleF02 = true
+                let name;
+                switch (a) {
+                    case 'fab fa-facebook':
+                        name = 'Facebook'
+                        break;
+                    case 'fab fa-twitter':
+                        name = 'Twitter'
+                        break;
+                    case 'fab fa-whatsapp':
+                        name = 'Whatsapp'
+                        break;
+                    case 'fab fa-instagram':
+                        name = 'Instagram'
+                        break;
+                    case 'fab fa-linkedin':
+                        name = 'Linkedin'
+                        break;
+                    case 'fab fa-youtube':
+                        name = 'Youtube'
+                        break;
+                    case 'fa fa-envelope':
+                        name = 'Correo Electrónico'
+                        break;
+                    case 'fab fa-google-plus':
+                        name = 'Google'
+                        break;
+
+                    default:
+                        break;
+                }
+                this.valueiEdit = (name.slice(0,4) == "fab " || name.slice(0,3) == "fa ") ? name : a;
+                this.valueurlEdit = e;
+                this.idFooter02 = i;
+
+            },
+            editFooter02(){
+                let datos = {
+                    'id': this.idFooter02,
+                    'icon': this.valueiEdit,
+                    'url':this.valueurlEdit
+                }
+                this.loadingFooter02 = true,
+                    axios.post('footer/getEditarEliminarFooter02/',
+                    {
+                        "id": JSON.stringify(datos),
+                        'estado':'edit',
+                    }).then((response) => {
+                        this.loadingFooter02 = false;
+                        this.$message({
+                            type: 'success',
+                            message: "Se ha editado!"
+                        });
+                        this.getListaFooter02();
+                    }).catch((error) => {
+                            this.loadingFooter02 = false;
+                            toastr.error(error);
+                    });
+            },
+            edelFooter02(i,e){
+                this.loadingFooter02 = true,
+                    axios.post('footer/getEditarEliminarFooter02/',
+                    {
+                        "id": i,
+                        'estado':e,
+                    }).then((response) => {
+                        this.loadingFooter02 = false;
+                        this.$message({
+                            type: 'success',
+                            message: "Se ha eliminado!"
+                        });
+                        this.getListaFooter02();
+                    })
+                    .catch((error) => {
+                        this.loadingFooter02 = false;
+                        toastr.error(error);
+                });
+            }
+
         }
     };
 

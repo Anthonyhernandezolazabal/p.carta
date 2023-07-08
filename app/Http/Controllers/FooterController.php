@@ -133,4 +133,41 @@ class FooterController extends Controller
 
         return $rpta;
     }
+
+    public function getEditarEliminarFooter02(Request $request)
+    {
+        $data       = request()->all();
+        $est        = $data["estado"];
+        $id        = $data["id"];
+        $tipo        = "Footer02";
+
+        $dataCount  = Footer::where('tipo','=',$tipo)->get(); //Hay registros con estado 1e
+        if($est == "edit"){
+            $idjson = json_decode($id)->id;
+            $arr = [
+                'icon'  => json_decode($id)->icon,
+                'url'   => json_decode($id)->url,
+            ];
+            $rpta = json_decode($dataCount[0]["estructura"])->datajson;
+            $rpta[$idjson] = $arr;
+            $arrData =  array(
+                'tipo'=> $tipo,
+                'copy'  => json_decode($dataCount[0]["estructura"])->copy,
+                'datajson' =>  array_values($rpta)
+            );
+            $rpta = Footer::where('tipo', $tipo)->update(['estructura' => json_encode($arrData)]);
+        }
+        if($est == "deleted")
+        {
+            $rpta = json_decode($dataCount[0]["estructura"])->datajson;
+            unset($rpta[$id]);
+            $arrData =  array(
+                'tipo'=> $tipo,
+                'copy'  => json_decode($dataCount[0]["estructura"])->copy,
+                'datajson' => array_values($rpta)
+            );
+            $rpta = Footer::where('tipo', $tipo)->update(['estructura' => json_encode($arrData)]);
+        }
+        return $rpta;
+    }
 }

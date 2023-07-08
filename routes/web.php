@@ -46,7 +46,6 @@ Route::get('/', function(){
     //FOOTER02
     $footer02 = Footer::where('tipo','=','Footer02')->first();
     $arrFooter02 = (!empty($footer02)) ? json_decode($footer02["estructura"],TRUE) : 0;
-    var_dump($arrFooter02["datajson"]);
     return view('web',compact('header','arrMenuNombres','arrLogoNombres','arrMenu01','arrMenu02','arrFooter','arrFooter02'));
 });
 
@@ -92,6 +91,7 @@ Route::get('/footer/getListarFooter/{tipo}', [FooterController::class, 'getLista
 Route::get('/footer/getEditarEliminarFooter/{id}/{e}', [FooterController::class, 'getEditarEliminarFooter']);
 
 Route::post('/footer/setRegistrarFooter02', [FooterController::class, 'setRegistrarFooter02']);
+Route::post('/footer/getEditarEliminarFooter02/', [FooterController::class, 'getEditarEliminarFooter02']);
 
 
 
